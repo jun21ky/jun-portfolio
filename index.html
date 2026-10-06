@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf9f5">
+  <meta name="description" content="Junのポートフォリオ。個人開発で8つのiOSアプリを公開。Neskを開発中のITエンジニア。">
+  <title>Jun — little apps, little ideas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=about-icons">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23f0dfcb'/%3E%3Ctext x='31' y='46' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='45' fill='%23645447'%3Ej%3C/text%3E%3Ccircle cx='48' cy='46' r='3' fill='%23b87b50'/%3E%3C/svg%3E">
+  <script src="content.js?v=about-icons" defer></script>
+  <script src="app.js?v=about-icons" defer></script>
+  <script src="playground.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <div class="page" id="top">
+    <header class="header">
+      <button class="wordmark" id="wordmark" type="button" aria-label="Junのロゴを動かす"><span class="letter">J</span><span class="letter">u</span><span class="letter">n</span><span class="dot"></span></button>
+      <nav class="nav" aria-label="メインナビゲーション"><a href="#apps">Apps</a><a href="#profile">Profile</a></nav>
+    </header>
+    <main id="main">
+      <section class="intro" aria-labelledby="intro-title">
+        <div class="intro-copy">
+        <p class="role">IT engineer &amp; indie developer</p>
+        <h1 id="intro-title"><span class="intro-greeting">Junです。</span><span class="intro-thought">ちいさなアイデアを、<br class="small-break playground-break"><span class="soft-underline">アプリに。</span></span></h1>
+        <p class="intro-description">個人開発でiOSアプリを制作。<br>これまでに8本をリリースしました。</p>
+        <a class="intro-note" href="#apps"><span class="little-number">8</span><span>released apps</span><span class="note-line" aria-hidden="true"></span><span>ひとつずつ、形に。</span></a>
+        </div>
+        <aside class="hero-playground" aria-label="コードとUIの小さなデモ">
+          <div class="play-code">
+            <p class="play-label">a little playground</p>
+            <pre aria-label="ボタンの角の丸さを表すCSS"><code><span class="code-line"><span class="code-selector">.hello</span> {</span><span class="code-line">  border-radius: <span class="code-number" id="radiusCode">24</span><span class="code-unit">px</span>;</span><span class="code-line">}</span></code></pre>
+          </div>
+          <div class="play-stage">
+            <button class="hello play-button" id="helloButton" type="button">Hello.</button>
+            <p class="play-message" id="playMessage" role="status" aria-live="polite">押してみて。</p>
+          </div>
+          <div class="play-control"><label for="cornerRadius">まるみ</label><input id="cornerRadius" type="range" min="0" max="32" value="24" aria-valuetext="角の丸さ24ピクセル"></div>
+        </aside>
+      </section>
+      <section class="work" id="apps" aria-labelledby="apps-title">
+        <div class="section-heading"><div><p class="section-kicker">MADE BY JUN</p><h2 id="apps-title">つくったアプリ <span>8</span></h2></div><div class="view-control" role="group" aria-label="アプリ一覧の表示方法"><button id="listView" type="button" aria-label="リスト表示" aria-pressed="true"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M6 4h9M6 9h9M6 14h9"/><path d="M2 4h1M2 9h1M2 14h1" stroke-width="2"/></svg></button><button id="gridView" type="button" aria-label="グリッド表示" aria-pressed="false"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="11" y="2" width="5" height="5" rx="1"/><rect x="2" y="11" width="5" height="5" rx="1"/><rect x="11" y="11" width="5" height="5" rx="1"/></svg></button></div></div>
+        <div class="search-bar"><label class="search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span class="sr-only">アプリを検索</span><input type="search" id="appSearch" aria-label="アプリを検索" placeholder="アプリをさがす" autocomplete="off"><span class="search-hint" aria-hidden="true">/</span></label><span id="resultCount" class="result-count" aria-live="polite">8 apps</span></div>
+        <ol class="apps" id="appList" aria-label="リリースしたiOSアプリ"></ol>
+        <div class="empty-state" id="emptyState" hidden><p>見つかりませんでした。</p><button type="button" id="clearSearch">すべてのアプリを見る</button></div>
+        <p class="collection-note">気になるアプリを選ぶと、詳細をひらけます。</p>
+      </section>
+      <section class="development" id="in-progress" aria-labelledby="development-title">
+        <div class="section-heading"><div><p class="section-kicker">ON MY DESK</p><h2 id="development-title">いま、つくっているもの</h2></div><span class="development-label">開発中</span></div>
+        <ol class="apps" id="developmentList" aria-label="開発中のアプリ"></ol>
+      </section>
+      <section class="profile" id="profile" aria-labelledby="profile-title">
+        <div class="section-heading"><div><p class="section-kicker">A LITTLE ABOUT ME</p><h2 id="profile-title">Junについて</h2></div><a class="profile-avatar" href="https://x.com/jun21ky" target="_blank" rel="noopener noreferrer" aria-label="JunのXプロフィールを開く"><img src="assets/profile/jun.png" alt="Junのプロフィール画像" width="80" height="80" loading="lazy" decoding="async"></a></div>
+        <p class="profile-copy">ITエンジニアのJunです。<br>個人開発で、iOSアプリを制作しています。</p>
+        <dl class="profile-details"><div><dt>しごと</dt><dd>ITエンジニア</dd></div><div><dt>つくるもの</dt><dd>iOSアプリ</dd></div><div><dt>これまで</dt><dd>8本をリリース</dd></div></dl>
+        <div class="profile-links" id="profileLinks" hidden></div>
+      </section>
+    </main>
+    <footer><span>© 2026 Jun</span><a href="#top">いちばん上へ</a></footer>
+  </div>
+  <dialog class="app-dialog" id="appDialog" aria-labelledby="detailTitle" aria-describedby="detailSummary">
+    <div class="dialog-toolbar"><span class="dialog-label">APP DETAILS</span><button type="button" class="close-dialog icon-button" id="closeDialog" aria-label="詳細を閉じる"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+    <div class="detail-content" id="detailContent"></div>
+    <div class="dialog-pagination"><button type="button" id="previousApp">まえのアプリ</button><span id="detailPosition" aria-live="polite"></span><button type="button" id="nextApp">つぎのアプリ</button></div>
+  </dialog>
+</body>
+</html>
