@@ -235,6 +235,21 @@ profileLinks.forEach(item => {
   links.append(link);
 });
 links.hidden = links.children.length === 0;
+const puppy = document.getElementById('puppyButton');
+let puppyTimer;
+function winkPuppy() {
+  const frame = puppy?.querySelector('.puppy-wink');
+  if (!puppy || puppyTimer || !frame?.complete || !frame.naturalWidth) return;
+  puppy.classList.add('is-winking');
+  puppyTimer = setTimeout(() => {
+    puppy.classList.remove('is-winking');
+    puppyTimer = null;
+  }, 600);
+}
+puppy?.addEventListener('click', winkPuppy);
+puppy?.addEventListener('pointerenter', event => {
+  if (event.pointerType === 'mouse') winkPuppy();
+});
 const logo = document.getElementById('wordmark');
 logo.addEventListener('click', () => {
   if (reducedMotion.matches || !Element.prototype.animate) return;

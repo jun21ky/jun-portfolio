@@ -101,3 +101,15 @@ html:not([data-entrance-done]) .play-control{animation:quietEntrance .35s var(--
 .profile-links .profile-icon-link:hover{background:#efe0cb;border-color:#ccb190;transform:translateY(-2px)}
 .profile-icon-tooltip{position:absolute;left:50%;top:calc(100% + 9px);transform:translate(-50%,3px);white-space:nowrap;border-radius:7px;background:#76604a;color:#fffaf1;font-size:11px;line-height:1.7;padding:4px 9px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,transform .18s,visibility .18s;z-index:2}
 .profile-icon-link:hover .profile-icon-tooltip,.profile-icon-link:focus-visible .profile-icon-tooltip{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+/* Junのそばに、触ると一度だけ反応する子犬。 */
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.puppy-button{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;padding:0;border:0;border-radius:12px;background:transparent;touch-action:manipulation}
+.puppy-face{position:relative;display:block;width:40px;height:40px;transition:transform .2s var(--ease)}
+.puppy-face img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .08s}
+.puppy-wink{opacity:0}
+.puppy-button.is-winking .puppy-idle{opacity:0}
+.puppy-button.is-winking .puppy-wink{opacity:1}
+.puppy-button.is-winking .puppy-face{transform:rotate(-5deg)}
+@media(max-width:560px){.brand{gap:6px}.puppy-face{width:36px;height:36px}}
+@media(prefers-reduced-motion:reduce){.puppy-button.is-winking .puppy-face{transform:none}}

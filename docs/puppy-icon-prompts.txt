@@ -1,0 +1,9 @@
+Header puppy icons
+Edited with the built-in imagegen tool from Jun's supplied puppy icon.
+Output: transparent PNG. Both originals remain saved separately.
+
+Normal expression — assets/brand/puppy.png
+Edit the provided puppy icon for a tiny website header. Preserve the exact original puppy identity, contour, stroke thickness, floppy ears, two vertical dot eyes, oval nose, proportions and symmetry. Change only all black linework and facial features to one solid warm brown #675747, and remove ALL white background and white face/ear interior pixels to genuine transparency. No new marks, no mouth, no texture, no shadow, no gradients. Crop the excessive blank margins and center the entire original puppy silhouette on a tightly framed square canvas: puppy spans approximately 90% of width, balanced clear padding, no clipping. Preserve the silhouette as supplied, not a reinterpretation. Single normal expression icon, transparent RGBA.
+
+Wink expression — assets/brand/puppy-wink.png
+Edit this transparent puppy icon to create its single wink expression frame. Change ONLY the viewer-right vertical oval eye into a tiny sideways chevron wink, like >, drawn in the same brown and same rounded stroke style, centered at exactly that eye's location. Preserve every other feature and contour, including viewer-left eye, nose, ears, scalp contour, line thickness, line color #675747, exact positioning, exact scale, and canvas dimensions. Do not crop, rotate, recenter or resize the puppy. Keep all surrounding space and face/ear interiors truly transparent; no fill or background, no mouth, no new marks or accessories, no text. This image will be overlaid on the original for animation, so the contour, nose and left eye must align exactly.
