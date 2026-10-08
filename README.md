@@ -2,7 +2,7 @@
 
 ITエンジニアJunのポートフォリオサイト。個人開発のiOSアプリと、開発中のNeskを紹介しています。
 
-**公開サイト:** https://junhayashii0.github.io/jun-portfolio/
+**公開サイト:** https://jun21ky.github.io/jun-portfolio/
 
 ## 内容
 
