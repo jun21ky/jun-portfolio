@@ -43,4 +43,6 @@ http://127.0.0.1:4173/ を開きます。ビルドやパッケージのインス
 
 フォントはGoogle FontsのZen Maru Gothicを使用しています。
 
+AboutのApp Storeアイコンは[Font Awesome Free 7.3.1のapp-store-ios](https://github.com/FortAwesome/Font-Awesome/blob/7.x/svgs/brands/app-store-ios.svg)を使用しています。Copyright 2026 Fonticons, Inc. — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。サイトの色に合わせ、SVGの表示範囲を正方形に調整しています。
+
 ヘッダーの子犬はJunが提供したアイコンをもとに、背景透過とサイトに合わせた茶色への変更を行っています。元のアイコンの形を保ち、通常とウインクの2枚を使用しています。
