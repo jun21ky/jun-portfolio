@@ -22,6 +22,61 @@ window.PORTFOLIO = {
   ],
   "apps": [
     {
+      "id": "09",
+      "name": "Nesk",
+      "storeName": "Nesk: タスク管理アプリ",
+      "tagline": "今日やることを、ここから始める。",
+      "description": "今日やることを決めて、実際に進めるためのアプリ。タスク・カレンダー・習慣・ノートをひとつにまとめ、データは端末とご自身のiCloudに保存します。",
+      "platform": "iOS",
+      "developer": "Jun Hayashi",
+      "status": "リリース済み",
+      "icon": "assets/6808355688/icon.jpg",
+      "storeUrl": "https://apps.apple.com/jp/app/nesk-%E3%82%BF%E3%82%B9%E3%82%AF%E7%AE%A1%E7%90%86%E3%82%A2%E3%83%97%E3%83%AA/id6808355688",
+      "releaseDate": "2026.11.06",
+      "technologies": [
+        "Tauri",
+        "Rust",
+        "React",
+        "TypeScript",
+        "SQLite"
+      ],
+      "features": [
+        "今日のタスクと、作業時間の記録・ポモドーロタイマー",
+        "思いついたことを付箋のようにInboxへ貼り、重要×緊急で振り分け",
+        "予定とタスクを同じ時間軸に並べるカレンダー（Googleカレンダー連携は任意）",
+        "毎日の習慣の記録と、[[リンク]]でつなぐノート"
+      ],
+      "screenshots": [
+        {
+          "src": "assets/6808355688/screen-01.jpg",
+          "alt": "NeskのApp Store紹介画像 1"
+        },
+        {
+          "src": "assets/6808355688/screen-02.jpg",
+          "alt": "NeskのApp Store紹介画像 2"
+        },
+        {
+          "src": "assets/6808355688/screen-03.jpg",
+          "alt": "NeskのApp Store紹介画像 3"
+        },
+        {
+          "src": "assets/6808355688/screen-04.jpg",
+          "alt": "NeskのApp Store紹介画像 4"
+        },
+        {
+          "src": "assets/6808355688/screen-05.jpg",
+          "alt": "NeskのApp Store紹介画像 5"
+        },
+        {
+          "src": "assets/6808355688/screen-06.jpg",
+          "alt": "NeskのApp Store紹介画像 6"
+        }
+      ],
+      "note": "アカウント登録は不要。開発者がデータを受け取るサーバーはなく、広告や行動の追跡もありません。",
+      "tone": "mint",
+      "category": "仕事効率化"
+    },
+    {
       "id": "01",
       "name": "Pomori",
       "storeName": "Pomori - 集中タイマー",
@@ -436,34 +491,6 @@ window.PORTFOLIO = {
       "note": null,
       "tone": "sand",
       "category": "フード／ドリンク"
-    },
-    {
-      "id": "09",
-      "name": "Nesk",
-      "tagline": "今日の「やる」を、ひとつのデスクに。",
-      "description": "今日やることを決め、時間を割り当て、集中し、振り返るためのデスクトップアプリ。タスクとカレンダー、作業メモをひとつの場所にまとめながら、公開に向けて開発しています。",
-      "platform": "デスクトップ",
-      "developer": "Jun",
-      "status": "開発中",
-      "icon": "assets/nesk/icon.png",
-      "storeUrl": null,
-      "releaseDate": null,
-      "technologies": [
-        "Tauri",
-        "Rust",
-        "React",
-        "TypeScript",
-        "SQLite"
-      ],
-      "features": [
-        "ドラッグ＆ドロップでタスクを時間枠に配置",
-        "タスクごとの見積もり・実績時間とメモ",
-        "繰り返しタスクと集中タイマー",
-        "日々の振り返りとMarkdownのメモ"
-      ],
-      "screenshots": [],
-      "note": "記録を手元に残せるローカルファーストの設計。日々のタスクやメモを扱う画面の使い心地を、少しずつ磨いています。",
-      "tone": "mint"
     }
   ]
 };

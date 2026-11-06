@@ -57,6 +57,7 @@ apps.forEach((app, index) => {
   destination.append(createAppItem(app, index));
 });
 document.querySelector('#apps-title span').textContent = releasedApps.length;
+document.getElementById('in-progress').hidden = releasedApps.length === apps.length;
 
 function filterApps() {
   const query = search.value.trim().toLocaleLowerCase();
