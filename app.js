@@ -1,6 +1,9 @@
+// ページの動きの本体。content.js のデータから、アプリ一覧・検索・詳細ダイアログ・プロフィールのリンクを作る。
 'use strict';
+// content.js が window.PORTFOLIO に入れたデータを取り出す
 const { apps, profileLinks } = window.PORTFOLIO;
 const releasedApps = apps.filter(app => app.status === 'リリース済み');
+// HTML の中の、あとで触る要素をまとめて取っておく
 const list = document.getElementById('appList');
 const search = document.getElementById('appSearch');
 const resultCount = document.getElementById('resultCount');
@@ -11,22 +14,29 @@ const dialog = document.getElementById('appDialog');
 const detailContent = document.getElementById('detailContent');
 const previousButton = document.getElementById('previousApp');
 const nextButton = document.getElementById('nextApp');
+// 「視差効果を減らす（動きを減らす）」設定がオンか。オンならアニメーションしない
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+// 状態: 開いているアプリの番号 / 閉じたあとにフォーカスを戻す先 / 開く前の body のスクロール設定
 let activeIndex = 0;
 let returnFocus = null;
 let previousOverflow = '';
 
+
+// ===== 小さな道具 =====
+// タグを作り、クラスと文字を入れて返す（createElement の短縮）
 function element(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
   if (text !== undefined) node.textContent = text;
   return node;
 }
+// http / https の URL だけ通す（javascript: などの危ないリンクを防ぐ）
 function safeExternalUrl(value) {
   if (!value) return null;
   try { const parsed = new URL(value); return /^https?:$/.test(parsed.protocol) ? parsed.href : null; }
   catch { return null; }
 }
+// アプリのアイコン。画像がなければ番号を色つきの四角で出す（色は tone → style.css）
 function appIcon(app) {
   const icon = element('span', `app-icon ${app.tone}`);
   icon.setAttribute('aria-hidden', 'true');
@@ -37,6 +47,9 @@ function appIcon(app) {
   } else icon.textContent = app.id;
   return icon;
 }
+
+// ===== アプリ一覧 =====
+// 一覧の1行（押すと詳細が開くボタン）を作る
 function createAppItem(app, index) {
   const item = element('li', 'app');
   const button = element('button', 'app-button');
@@ -52,19 +65,24 @@ function createAppItem(app, index) {
   button.addEventListener('click', () => openApp(index));
   item.append(button); return item;
 }
+// リリース済みは「つくったアプリ」へ、それ以外は「いま、つくっているもの」へ入れる
 apps.forEach((app, index) => {
   const destination = app.status === 'リリース済み' ? list : document.getElementById('developmentList');
   destination.append(createAppItem(app, index));
 });
+// 見出しの数を実際の本数に。開発中がなければその欄ごと隠す
 document.querySelector('#apps-title span').textContent = releasedApps.length;
 document.getElementById('in-progress').hidden = releasedApps.length === apps.length;
 
+// ===== 検索 =====
+// 名前・説明・技術などをつないだ文字列に、入力した語が含まれるかで行を隠す／出す
 function filterApps() {
   const query = search.value.trim().toLocaleLowerCase();
   let count = 0;
   releasedApps.forEach((app, index) => {
     const haystack = [app.name, app.storeName, app.tagline, app.description, app.platform, app.category, ...(app.technologies || [])].join(' ').toLocaleLowerCase();
     const match = !query || haystack.includes(query);
+    // 一覧の並びは releasedApps と同じなので、番号で行を対応させている
     list.children[index].hidden = !match;
     if (match) count++;
   });
@@ -72,11 +90,15 @@ function filterApps() {
   emptyState.hidden = count !== 0;
   list.hidden = count === 0;
 }
+// 最初に一度呼んで、件数を表示しておく
 filterApps();
 search.addEventListener('input', filterApps);
 document.getElementById('clearSearch').addEventListener('click', () => {
   search.value = ''; filterApps(); search.focus();
 });
+
+// ===== リスト / グリッドの切りかえ =====
+// FLIP という手法: 切りかえ前の位置を測る → 切りかえる → 前の位置から今の位置へすべらせる
 function setView(grid) {
   if (list.classList.contains('grid') === grid) return;
   const items = [...list.children].filter(item => !item.hidden);
@@ -84,6 +106,7 @@ function setView(grid) {
   list.classList.toggle('grid', grid);
   listButton.setAttribute('aria-pressed', String(!grid));
   gridButton.setAttribute('aria-pressed', String(grid));
+  // ここから下はアニメーション。動きを減らす設定なら、切りかえるだけで終わり
   if (reducedMotion.matches || !Element.prototype.animate) return;
   items.forEach((item, index) => {
     const after = item.getBoundingClientRect();
@@ -96,12 +119,16 @@ function setView(grid) {
 listButton.addEventListener('click', () => setView(false));
 gridButton.addEventListener('click', () => setView(true));
 
+
+// ===== 詳細ダイアログ =====
+// 「ラベル: 値」を1組足す（値がなければ何もしない）
 function addFact(container, label, value) {
   if (!value) return;
   const fact = element('div');
   fact.append(element('dt', null, label), element('dd', null, value));
   container.append(fact);
 }
+// 選んだアプリの詳細を、中身ごと作り直す。画面・できること・開発メモは、データがあるときだけ出す
 function renderDetails(app) {
   detailContent.replaceChildren();
   const header = element('div', 'detail-header');
@@ -145,6 +172,7 @@ function renderDetails(app) {
     link.href = storeUrl; link.target = '_blank'; link.rel = 'noopener noreferrer'; detailContent.append(link);
   } else detailContent.append(element('p', 'detail-placeholder-note', app.status === '開発中' ? '公開に向けて開発中です。' : 'アプリの詳しい紹介は、準備中です。'));
 }
+// 詳細を開く（開いていれば中身を差しかえる）。URL を #app-ID にして、リンクの共有と「戻る」に対応
 function openApp(index, updateHash = true) {
   if (index < 0 || index >= apps.length) return;
   const wasOpen = dialog.open;
@@ -153,6 +181,7 @@ function openApp(index, updateHash = true) {
   previousButton.disabled = index === 0;
   nextButton.disabled = index === apps.length - 1;
   document.getElementById('detailPosition').textContent = `${String(index + 1).padStart(2, '0')} / ${String(apps.length).padStart(2, '0')}`;
+  // 初めて開くとき: 戻り先のフォーカスを覚え、後ろのページがスクロールしないようにする
   if (!dialog.open) {
     returnFocus = document.activeElement;
     previousOverflow = document.body.style.overflow;
@@ -161,12 +190,14 @@ function openApp(index, updateHash = true) {
     document.getElementById('closeDialog').focus({ preventScroll: true });
   }
   dialog.scrollTop = 0;
+  // 開いたままの移動は履歴を増やさない（replace）。新しく開いたときだけ履歴に足す（push）
   if (updateHash) {
     const hash = `#app-${apps[index].id}`;
     if (wasOpen) history.replaceState(history.state, '', hash);
     else history.pushState({ appDialog: true }, '', hash);
   }
 }
+// 閉じたら: スクロールを戻し、URL の #app-… を消し、押したボタンにフォーカスを戻す
 document.getElementById('closeDialog').addEventListener('click', () => dialog.close());
 dialog.addEventListener('close', () => {
   document.body.style.overflow = previousOverflow;
@@ -176,13 +207,16 @@ dialog.addEventListener('close', () => {
   }
   if (returnFocus instanceof HTMLElement && document.contains(returnFocus)) returnFocus.focus({ preventScroll: true });
 });
+// ダイアログの外側（暗い背景）をクリックしたら閉じる
 dialog.addEventListener('click', event => {
   if (event.target !== dialog) return;
   const bounds = dialog.getBoundingClientRect();
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
 });
+// 「まえのアプリ」「つぎのアプリ」
 previousButton.addEventListener('click', () => openApp(activeIndex - 1));
 nextButton.addEventListener('click', () => openApp(activeIndex + 1));
+// URL の #app-ID を見て、そのアプリを開く。該当がなければ閉じる（直接リンク・戻る / 進む用）
 function resolveHash() {
   const id = location.hash.match(/^#app-(.+)$/)?.[1];
   const index = apps.findIndex(app => app.id === id);
@@ -193,6 +227,7 @@ function resolveHash() {
 addEventListener('hashchange', resolveHash);
 addEventListener('popstate', resolveHash);
 resolveHash();
+// 「/」キーで検索欄へ（文字を入力中のときは除く）
 addEventListener('keydown', event => {
   const target = event.target;
   if (event.key === '/' && !dialog.open && !event.ctrlKey && !event.metaKey && !(target instanceof HTMLElement && (target.matches('input,textarea,select') || target.isContentEditable))) {
@@ -200,6 +235,9 @@ addEventListener('keydown', event => {
   }
 });
 
+
+// ===== プロフィールのリンク =====
+// アイコンの形（SVG のパス）。content.js の profileLinks の icon の名前と対応
 const links = document.getElementById('profileLinks');
 const profileIconPaths = {
   'app-store': [
@@ -213,6 +251,7 @@ const profileIconPaths = {
     { d: 'M6 5h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z M3.5 7 12 13l8.5-6', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.7', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' },
   ],
 };
+// リンクを作る。アイコンがあれば丸いアイコン＋ホバーで出る名前、なければ文字だけ
 profileLinks.forEach(item => {
   const url = safeExternalUrl(item.url); if (!url) return;
   const link = element('a');
@@ -237,6 +276,9 @@ profileLinks.forEach(item => {
   links.append(link);
 });
 links.hidden = links.children.length === 0;
+
+// ===== 子犬とロゴ =====
+// 子犬: 押す・マウスを乗せると、0.6 秒だけウインクの画像に替える（その間の連打は無視）
 const puppy = document.getElementById('puppyButton');
 let puppyTimer;
 function winkPuppy() {
@@ -249,9 +291,11 @@ function winkPuppy() {
   }, 600);
 }
 puppy?.addEventListener('click', winkPuppy);
+// マウスのときだけ。タッチでも反応させると click と二重になるため
 puppy?.addEventListener('pointerenter', event => {
   if (event.pointerType === 'mouse') winkPuppy();
 });
+// ロゴ「Jun」を押すと、文字が順に跳ねて、8 方向に粒が飛ぶ（粒は終わったら消す）
 const logo = document.getElementById('wordmark');
 logo.addEventListener('click', () => {
   if (reducedMotion.matches || !Element.prototype.animate) return;
@@ -271,6 +315,8 @@ logo.addEventListener('click', () => {
   }
 });
 
+// ===== 開いたときの演出 =====
+// style.css は、<html> に data-entrance-done が付くまで登場アニメーションを流す
 // 操作を始めたら表示を完了する。一度完了した演出はページ内では再開しない。
 const entranceEvents = ['pointerdown', 'keydown', 'wheel', 'touchmove'];
 let entranceTimer;

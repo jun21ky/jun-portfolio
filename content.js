@@ -1,4 +1,12 @@
 // App Storeの公開情報とNeskのプロジェクト資料をもとに構成。紹介文は要約です。
+// ページに出す中身はすべてここ。アプリを足す・直すときは、このファイルだけ触ればいい。
+//
+// profileLinks … プロフィールのリンク。icon は app.js の profileIconPaths の名前
+// apps … 1件 = 1アプリ。上から順に並ぶ
+//   id: 番号（URL の #app-09 にも使う）/ name・storeName・tagline・description: 名前と紹介文
+//   status: 「リリース済み」なら一覧へ、それ以外は「いま、つくっているもの」へ
+//   icon・screenshots: assets/ の画像 / tone: アイコンの色（style.css の .peach など）
+//   technologies・features・note: 詳細ダイアログの「技術」「できること」「開発メモ」
 window.PORTFOLIO = {
   "profileLinks": [
     {
